@@ -1,28 +1,61 @@
-# Install
+# Setup
 ## Python
 1. Go to [Python Download](https://www.python.org/downloads)
 2. Download Python 3.13.x and install
-## Python packages
+## Virtual environment
+```
+python -m venv venv
+venv\Scripts\activate
+```
+## Packages
 - For crawling in stealth mode
-```
-pip install playwright
-python -m playwright install
-```
+  - Install playwright
+  ```
+  pip install playwright
+  python -m playwright install
+  ```
+  - Copy Chromium-<version> (e.g. chromium-1179) folder from  %USERPROFILE%\AppData\Local\ms-playwright to crawler folder.
+  - Rename it to chromium. e.g. chromium-1179 to chromium
 - YAML configuration
 ```
 pip install pyyaml
 ```
 ## GIT Clone
 ```
-> git clone https://github.com/isbicf/Crawlift.git
+git clone https://github.com/isbicf/Crawlift.git
 ```
 
 # Run
-...\Clawlift\crawler> python .\crawl.py <Crawling Key in config.yaml>
+...\Clawlift\crawler> python .\crawler.py <Crawling Key in config.yaml>
 ```
 e.g.
-...\Clawlift\crawler> python .\crawl.py dwmoters
+...\Clawlift\crawler> python .\crawler.py dwmoters
 ```
+
+# Build executable file (Windows)
+1. Install PyInstaller
+```
+pip install pyinstaller
+```
+2. Build
+```
+pyinstaller --onefile --name crawler crawler.py
+```
+3. Test the .exe on a clean environment:
+- Clean environment
+  - Does not have Python
+  - Does not have Playwright installed
+- Copy the executable file, Chromium and configuration\
+  <img src="images/folder.png" width="600">
+  - chromium folder
+  - config.yaml
+  - crawler.exe
+  - dwmoters_params.cs
+- Run
+```
+.\crawler.exe <Crawling Key>
+```
+  <img src="images/run.png" width="600">
 
 # TroubleShooting
 ## Website Connection Timeout

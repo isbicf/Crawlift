@@ -16,7 +16,7 @@ dwmotors:
   retry: 3
   scroll: false
   timeout:
-    page: 6000
+    page: 9000
     element: 1000
   fields:
     - ['상품명', 'div.infoArea h3']

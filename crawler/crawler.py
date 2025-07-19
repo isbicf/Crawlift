@@ -92,7 +92,7 @@ class Crawler:
             writer.writeheader()
 
             with sync_playwright() as pwright:
-                print('Starting crawl...')
+                print('Start crawling...')
                 browser, context = Crawler.open_context(pwright)
                 page = context.new_page()
 
@@ -107,7 +107,9 @@ class Crawler:
     @staticmethod
     def open_context(pwright):
         print('Opening browser...')
-        browser = pwright.chromium.launch(headless=True)
+        browser = pwright.chromium.launch(
+            executable_path='chromium/chrome-win/chrome.exe',
+            headless=True)
         context = browser.new_context(
             # spoof a real Chrome browser
             user_agent=(
@@ -138,10 +140,10 @@ class Crawler:
         for attempt in range(self.config['retry']):
             try:
                 page.goto(url, timeout=self.config['timeout']['page'], wait_until='domcontentloaded')
+                break
             except PlaywrightTimeoutError:
                 print(f'Retry {attempt + 1} for {url}')
                 time.sleep(1)
-            break
         else:
             print(f'Cannot open {url}. Retry limit ({self.config["retry"]}) exceeded')
             logging.error(traceback.format_exc())
