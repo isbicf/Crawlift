@@ -1,0 +1,26 @@
+# site configuration example
+example:  # site name
+  base_url: 'https://example.com/item?id={param1}&code={param2}' # Use placeholders named param1, param2, ... in order!
+  param_file: 'example_params.csv'  # parameters file name
+  output_file: 'example_output.csv'  # result file name
+  retry: 3  # retry limit for each page
+  scroll: true  # false if not given
+  timeout:
+    page: 3000    # timeout for loading pages
+    element: 1000 # timeout for HTML element extraction
+
+dwmotors:
+  base_url: 'https://dwmotors.co.kr/product/detail.html?product_no={param1}&cate_no={param2}&display_group={param3}'
+  param_file: 'dwmoters_params.csv'
+  output_file: 'dwmoters.csv'
+  retry: 3
+  scroll: false
+  timeout:
+    page: 6000
+    element: 1000
+  fields:
+    - ['상품명', 'div.infoArea h3']
+    - ['제조사', 'xpath=//th[contains(.,"제조사")]/following-sibling::td']
+    - ['원산지', 'xpath=//th[contains(.,"원산지")]/following-sibling::td']
+    - ['판매가', 'xpath=//th[contains(.,"판매가")]/following-sibling::td//strong']
+
