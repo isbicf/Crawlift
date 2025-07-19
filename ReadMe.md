@@ -12,10 +12,16 @@ python -m playwright install
 ```
 pip install pyyaml
 ```
+## GIT Clone
+```
+> git clone https://github.com/isbicf/Crawlift.git
+```
+
 # Run
+...\Clawlift\crawler> python .\crawl.py <Crawling Key in config.yaml>
 ```
 e.g.
-python .\crawl.py dwmoters
+...\Clawlift\crawler> python .\crawl.py dwmoters
 ```
 
 # TroubleShooting

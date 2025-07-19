@@ -1,4 +1,5 @@
 import csv
+import logging
 import re   # regular expression implicitly used by converters
 import random
 import time
@@ -6,6 +7,16 @@ import traceback    # TODO:
 
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 import yaml
+
+# logging configuration
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    handlers=[
+        logging.FileHandler('crawl_error.log', encoding='utf-8'),
+        logging.StreamHandler()  # Also print to console
+    ]
+)
 
 
 class Element:
@@ -25,9 +36,11 @@ class Element:
             return value
         except PlaywrightTimeoutError as e:
             print(f'Timeout while extracting {self.field}: {e}')
+            logging.error(traceback.format_exc())
             return ''
         except Exception as e:
             print(f'Error extracting {self.field}: {e}')
+            logging.error(traceback.format_exc())
             return ''
 
 
@@ -52,6 +65,7 @@ class Crawler:
                 self.params = [{f'param{i + 1}': v for i, v in enumerate(row)} for row in reader if any(row)]
         except Exception as e:
             print(f'Error: loading parameters from file: {e}')
+            logging.error(traceback.format_exc())
             self.params = []
 
         # field name, selector, converter
@@ -130,6 +144,7 @@ class Crawler:
             break
         else:
             print(f'Cannot open {url}. Retry limit ({self.config["retry"]}) exceeded')
+            logging.error(traceback.format_exc())
             return False
 
         # Crawler.scroll(page)   # human-like action: Scrolling
